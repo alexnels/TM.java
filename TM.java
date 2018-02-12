@@ -148,8 +148,9 @@ class Log
             long totalRunTime = 0;
             String timeA = "null";
             String timeB = "null";
-            String description = "";
+            String description = "null";
             String programSize = "";
+            StringBuilder stringBuilder = new StringBuilder();
             
             while((index-1)>=0)
             {
@@ -175,13 +176,19 @@ class Log
                   timeA = "null";
                   timeB = "null";
                }
+               else if(!(description.equals("null")))
+               {
+                  stringBuilder.append(description + ". ");
+                  description = "null";
+               }
+               //https://stackoverflow.com/questions/12899953/in-java-how-to-append-a-string-more-efficiently
+
             }//end of while loop
             
-            if(description.equals("null"))
-               description = "";         
+            String finalDescription = stringBuilder.toString();      
             
             System.out.println("Program Summary for:\t" + programName);
-            System.out.println("Program Description:\t" + description);
+            System.out.println("Program Description:\t" + finalDescription);
             System.out.println("Total Running Time: \t" + formatTimeOutput(totalRunTime));
             System.out.println("Program T-Shirt size: \t" + programSize);
             
