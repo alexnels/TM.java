@@ -34,6 +34,9 @@ public class TM
             case ("describe"):
                cmdWrite(cmd, data, programDescription);
                break;
+            case ("size"):
+               writeSize(cmd, data, programDescription);
+               break;
             case ("summary"):
                if(!(data.equals("null")))
                   logFile.readEntry(data);
@@ -58,6 +61,11 @@ public class TM
    public void cmdWrite(String cmd, String data, String programDesc)
    {
       logFile.writeEntry(getTime() + "," + cmd + "," + data + "," + programDesc);      
+   }
+
+   public void writeSize(String cmd, String data, String programSize)
+   {
+      logFile.writeEntry(getTime() + "," + cmd + "," + data + "," + programSize);
    }
    
    public String getTime()
@@ -141,6 +149,7 @@ class Log
             String timeA = "null";
             String timeB = "null";
             String description = "";
+            String programSize = "";
             
             while((index-1)>=0)
             {
@@ -150,6 +159,8 @@ class Log
                   timeB = programList.get(index-2);
                else if(programList.get(index-1).equals("describe"))
                   description = programList.get(index+1);
+               else if(programList.get(index-1).equals("size"))
+                  programSize = programList.get(index+1);
                   
                programList.remove(index);
                programList.remove(0);
@@ -172,6 +183,7 @@ class Log
             System.out.println("Program Summary for:\t" + programName);
             System.out.println("Program Description:\t" + description);
             System.out.println("Total Running Time: \t" + formatTimeOutput(totalRunTime));
+            System.out.println("Program T-Shirt size: \t" + programSize);
             
             br.close();
 
@@ -236,5 +248,7 @@ class Log
             System.out.println("\nThe logFile.txt file does not exist.");
         }
    }//end of summarize() function
+
+
    
 }//end of Log class
