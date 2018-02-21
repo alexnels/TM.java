@@ -35,7 +35,13 @@ public class TM
                cmdWrite(cmd, data, programDescription);
                break;
             case ("size"):
-               writeSize(cmd, data, programDescription);
+               cmdWrite(cmd, data, programDescription);
+               break;
+            case ("delete"):
+               cmdWrite(cmd, data, programDescription);
+               break;
+            case ("rename"):
+               logFile.renameProgram(data, programDescription);
                break;
             case ("summary"):
                if(!(data.equals("null")))
@@ -63,10 +69,6 @@ public class TM
       logFile.writeEntry(getTime() + "," + cmd + "," + data + "," + programDesc);      
    }
 
-   public void writeSize(String cmd, String data, String programSize)
-   {
-      logFile.writeEntry(getTime() + "," + cmd + "," + data + "," + programSize);
-   }
    
    public String getTime()
    {
@@ -150,6 +152,8 @@ class Log
             String timeB = "null";
             String description = "null";
             String programSize = "";
+            String deletedProgram = "null";
+            String newProgramName = "null";
             StringBuilder stringBuilder = new StringBuilder();
             
             while((index-1)>=0)
@@ -162,6 +166,10 @@ class Log
                   description = programList.get(index+1);
                else if(programList.get(index-1).equals("size"))
                   programSize = programList.get(index+1);
+               else if(programList.get(index-1).equals("delete"))
+                  deletedProgram = programList.get(index);
+               else if(programList.get(index-1).equals("rename"))
+                  newProgramName = programList.get(index+1);
                   
                programList.remove(index);
                programList.remove(0);
@@ -183,15 +191,30 @@ class Log
                }
                //https://stackoverflow.com/questions/12899953/in-java-how-to-append-a-string-more-efficiently
 
+               //deletedProgram = "null";
+
             }//end of while loop
             
-            String finalDescription = stringBuilder.toString();      
-            
-            System.out.println("Program Summary for:\t" + programName);
-            System.out.println("Program Description:\t" + finalDescription);
-            System.out.println("Total Running Time: \t" + formatTimeOutput(totalRunTime));
-            System.out.println("Program T-Shirt size: \t" + programSize);
-            
+            String finalDescription = stringBuilder.toString();
+
+            if(deletedProgram.equals(programName))      
+            {
+               System.out.println("Program " + programName + " was deleted");
+            }
+            else
+            {
+               if (newProgramName.equals("null"))
+                  System.out.println("Program Summary for:\t" + programName);
+               else
+                  System.out.println("Program Summary for:\t" + newProgramName);
+                  System.out.println("Program Description:\t" + finalDescription);
+                  System.out.println("Total Running Time: \t" + formatTimeOutput(totalRunTime));
+                  System.out.println("Program T-Shirt size: \t" + programSize);
+            }
+               
+
+
+
             br.close();
 
             } 
@@ -203,59 +226,104 @@ class Log
    
    public void summarize()
    {
-         try {
-            ArrayList<String> inputList = new ArrayList<String>();
-            ArrayList<String> programNames = new ArrayList<String>();
-            BufferedReader br = new BufferedReader(new FileReader("logFile.txt"));
-            String input = br.readLine();
-            String programName = "null";
-            
-            while(input != null)
-            {
-               String[] split = input.split(",");
-               
-               for(int i =0; i < split.length; i++)
-                  inputList.add(split[i]);
+      ArrayList<String> programNames = findNames();
 
-               input = br.readLine();
-            }       
-            
-            //System.out.println("Size: " + inputList.size());
-            
-            while(inputList.size() > 0)
-            {                  
-               inputList.remove(0);
-               inputList.remove(0);              
-                  
-               programName = inputList.get(0);
-               programNames.add(programName);
+      while(programNames.size() > 0)
+      {
+         readEntry(programNames.get(0));
+         System.out.println("");
+         programNames.remove(0);
+      }
 
-               inputList.remove(0);
-               inputList.remove(0);
-            }
-            
-            Set<String> noDuplicates = new HashSet<>();
-            noDuplicates.addAll(programNames);
-            programNames.clear();
-            programNames.addAll(noDuplicates);
-            
-            //https://stackoverflow.com/questions/203984/how-do-i-remove-repeated-elements-from-arraylist
-            
-            while(programNames.size() > 0)
-            {
-               readEntry(programNames.get(0));
-               System.out.println("");
-               programNames.remove(0);
-            }
-
-            br.close();
-
-        } catch (IOException ioe) {
-
-            System.out.println("\nThe logFile.txt file does not exist.");
-        }
    }//end of summarize() function
 
+   public ArrayList<String> findNames()
+   {
+      ArrayList<String> inputList = new ArrayList<String>();
+      ArrayList<String> programNames = new ArrayList<String>();
 
-   
+      try 
+      {
+         BufferedReader br = new BufferedReader(new FileReader("logFile.txt"));
+         String input = br.readLine();
+         String programName = "null";
+
+
+         while(input != null)
+         {
+            String[] split = input.split(",");
+            
+            for(int i =0; i < split.length; i++)
+               inputList.add(split[i]);
+
+            input = br.readLine();
+         }       
+         
+         while(inputList.size() > 0)
+         {                  
+            inputList.remove(0);
+            inputList.remove(0);              
+               
+            programName = inputList.get(0);
+            programNames.add(programName);
+
+            inputList.remove(0);
+            inputList.remove(0);
+         }
+         
+         Set<String> noDuplicates = new HashSet<>();
+         noDuplicates.addAll(programNames);
+         programNames.clear();
+         programNames.addAll(noDuplicates);
+
+         br.close();
+         //https://stackoverflow.com/questions/203984/how-do-i-remove-repeated-elements-from-arraylist
+
+      } 
+      catch (IOException ioe) {
+
+         System.out.println("\nThe logFile.txt file does not exist.");
+      }
+
+      return programNames;
+   }
+
+   public void renameProgram(String oldProgramName, String newName)
+   {
+      try
+      {
+         BufferedReader file = new BufferedReader(new FileReader("logFile.txt"));
+         String line;
+         StringBuffer inputBuffer = new StringBuffer();
+
+         while ((line = file.readLine()) != null) 
+         {
+            inputBuffer.append(line);
+            inputBuffer.append((System.getProperty("line.separator")));
+         }
+         file.close();
+
+         int stringLength = oldProgramName.length();
+
+         while(inputBuffer.lastIndexOf(oldProgramName) > 0)
+         {
+            int position = inputBuffer.lastIndexOf(oldProgramName);
+            inputBuffer.replace(position, position + stringLength, newName);
+         }
+
+         FileWriter fileWriter = new FileWriter("logFile2.txt");
+         fileWriter.write(inputBuffer.toString());
+         fileWriter.close();
+      }
+
+      catch (Exception e)
+      {
+
+      }
+
+      //https://stackoverflow.com/questions/20039980/java-replace-line-in-text-file
+
+   }
+
+
 }//end of Log class

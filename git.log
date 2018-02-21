@@ -1,3 +1,15 @@
+commit 79fc4309eebe83a244d4be4427e00618d9be4b36
+Author: Alex N <alexandernelson@csus.edu>
+Date:   Mon Feb 12 12:45:27 2018 -0800
+
+    Added support for multiple line descriptions of programs
+
+commit 7e13a3aeb11d9a7547eed848bf9c983594c4c600
+Author: Alex N <alexandernelson@csus.edu>
+Date:   Mon Feb 12 12:28:17 2018 -0800
+
+    Added t-Shirt size support
+
 commit fadcdd96d42938dc83e078fd18f2b958fdedc1f1
 Author: Alex N <alexandernelson@csus.edu>
 Date:   Sun Feb 11 16:47:07 2018 -0800

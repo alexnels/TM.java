@@ -4,3 +4,5 @@
 2018-02-12 12:39:20,describe,TMProgram,A second line of description for the program
 2018-02-12 12:42:15,describe,TMProgram,I can keep adding multiple lines if I would like
 2018-02-12 12:42:42,stop,TMProgram,null
+2018-02-19 16:18:59,start,newSprint,null
+2018-02-19 16:31:59,delete,newSprint,null
