@@ -1,8 +1,6 @@
-2018-02-12 12:05:47,start,newName,null
-2018-02-12 12:14:50,size,newName,S
-2018-02-12 12:16:17,describe,newName,A program to help with time management
-2018-02-12 12:39:20,describe,newName,A second line of description for the program
-2018-02-12 12:42:15,describe,newName,I can keep adding multiple lines if I would like
-2018-02-12 12:42:42,stop,newName,null
 2018-02-19 16:18:59,start,newSprint,null
 2018-02-19 16:31:59,delete,newSprint,null
+2018-02-21 14:45:11,start,addingRenameFunction,null
+2018-02-21 15:58:20,stop,addingRenameFunction,null
+2018-02-21 15:59:02,describe,addingRenameFunction,Adding a function to allow the user to rename their programs
+2018-02-21 15:59:32,size,addingRenameFunction,S

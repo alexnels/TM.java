@@ -4,5 +4,11 @@
 2018-02-12 12:39:20,describe,TMProgram,A second line of description for the program
 2018-02-12 12:42:15,describe,TMProgram,I can keep adding multiple lines if I would like
 2018-02-12 12:42:42,stop,TMProgram,null
-2018-02-19 16:18:59,start,newSprint,null
-2018-02-19 16:31:59,delete,newSprint,null
+2018-02-21 14:45:11,start,addingRenameFunction,null
+2018-02-21 15:58:20,stop,addingRenameFunction,null
+2018-02-21 15:59:02,describe,addingRenameFunction,Adding a function to allow the user to rename their programs
+2018-02-21 15:59:32,size,addingRenameFunction,S
+2018-02-21 16:00:42,start,addingDeleteFunction,null
+2018-02-21 16:37:48,stop,addingDeleteFunction,null
+2018-02-21 16:38:14,describe,addingDeleteFunction,Adding function to delete unwanted tasks
+2018-02-21 16:38:47,size,addingDeleteFunction,S

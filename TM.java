@@ -38,7 +38,7 @@ public class TM
                cmdWrite(cmd, data, programDescription);
                break;
             case ("delete"):
-               cmdWrite(cmd, data, programDescription);
+               logFile.deleteProgram(data);
                break;
             case ("rename"):
                logFile.renameProgram(data, programDescription);
@@ -166,11 +166,7 @@ class Log
                   description = programList.get(index+1);
                else if(programList.get(index-1).equals("size"))
                   programSize = programList.get(index+1);
-               else if(programList.get(index-1).equals("delete"))
-                  deletedProgram = programList.get(index);
-               else if(programList.get(index-1).equals("rename"))
-                  newProgramName = programList.get(index+1);
-                  
+
                programList.remove(index);
                programList.remove(0);
                programList.remove(0);
@@ -212,8 +208,6 @@ class Log
                   System.out.println("Program T-Shirt size: \t" + programSize);
             }
                
-
-
 
             br.close();
 
@@ -311,7 +305,44 @@ class Log
             inputBuffer.replace(position, position + stringLength, newName);
          }
 
-         FileWriter fileWriter = new FileWriter("logFile2.txt");
+         FileWriter fileWriter = new FileWriter("logFile.txt");
+         fileWriter.write(inputBuffer.toString());
+         fileWriter.close();
+      }
+
+      catch (Exception e)
+      {
+
+      }
+
+      //https://stackoverflow.com/questions/20039980/java-replace-line-in-text-file
+
+   }
+
+   public void deleteProgram(String programName)
+   {
+      try
+      {
+         BufferedReader file = new BufferedReader(new FileReader("logFile.txt"));
+         String line;
+         StringBuffer inputBuffer = new StringBuffer();
+         StringBuffer bufferString = new StringBuffer();
+
+         while ((line = file.readLine()) != null) 
+         {
+            bufferString.append(line);
+            if(bufferString.indexOf(programName) < 0)
+            {
+               inputBuffer.append(line);
+               inputBuffer.append((System.getProperty("line.separator")));
+            }
+
+            bufferString.delete(0, bufferString.length());
+
+         }
+         file.close();
+
+         FileWriter fileWriter = new FileWriter("logFile.txt");
          fileWriter.write(inputBuffer.toString());
          fileWriter.close();
       }
